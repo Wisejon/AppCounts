@@ -1,0 +1,214 @@
+
+<!-- Extra JavaScript/CSS added manually in "Settings" tab -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="dependencies/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="dependencies/bootstrap-datepicker/css/bootstrap-datepicker3.css"/>
+
+<script>
+	$(document).ready(function(){
+		var date_input=$('input[name="date"]'); //our date input has the name "date"
+		var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+		date_input.datepicker({
+			format: 'yyyy-mm-dd',
+			container: container,
+			todayHighlight: true,
+			autoclose: true,
+		})
+	})
+</script>
+
+<script>
+Highcharts.chart('container', {
+
+    chart: {
+        type: 'column'
+    },
+    credits: {
+      enabled: false
+    },
+
+    title: {
+        text: 'Daily Application Counts'
+    },
+
+    xAxis: {
+        allowDecimals: false,
+        data: [<?php echo join($col_date, ',') ?>],
+        type:'date',
+        labels: {
+ 					formatter: function () {
+ 						return '<?php echo $currentMonthNameShort . " " ?>' + (this.value +1);
+ 					}
+ 				}
+
+    },
+
+    yAxis: {
+        allowDecimals: false,
+        min: 0,
+        title: {
+            text: 'Applications'
+        }
+    },
+
+    tooltip: {
+        formatter: function () {
+            return '<b><?php echo $currentMonthNameShort . " " ?>' + (this.x +1) + '</b><br/>' +
+                this.series.name + ': ' + this.y + '<br/>' +
+                'Total: ' + this.point.stackTotal;
+        }
+    },
+
+    plotOptions: {
+        column: {
+            stacking: 'normal'
+        },
+        plotOptions: {
+        series: {
+            groupPadding: 0
+        }
+    },
+    },
+
+    series: [{
+        name: 'Applyweb',
+        data: [<?php echo join($col_aw, ',') ?>],
+        stack: 'current',
+        color: '#56a5ec',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }, {
+        name: 'Coalition',
+        data: [<?php echo join($col_coal, ',') ?>],
+        stack: 'current',
+        color: '#2b65ec',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }, {
+        name: 'Applyweb (Prev)',
+        data: [<?php echo join($col_py_aw, ',') ?>],
+        stack: 'previous year',
+        color: '#F88017',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }, {
+        name: 'Coalition (Prev)',
+        data: [<?php echo join($col_py_coal, ',') ?>],
+        stack: 'previous year',
+        color: '#c35817',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }]
+});
+//new chart
+Highcharts.chart('container2', {
+
+    chart: {
+        type: 'column'
+    },
+
+    title: {
+        text: 'Daily Applicaiton Counts'
+    },
+
+    xAxis: {
+        allowDecimals: false,
+        data: [<?php echo join($col_date, ',') ?>],
+        type:'date',
+        labels: {
+ 					formatter: function () {
+ 						return '<?php echo $currentMonthNameShort . " " ?>' + (this.value +1);
+ 					}
+ 				}
+
+    },
+
+    yAxis: {
+        allowDecimals: false,
+        min: 0,
+        title: {
+            text: 'Applications'
+        }
+    },
+
+    tooltip: {
+        formatter: function () {
+            return '<b><?php echo $currentMonthNameShort . " " ?>' + (this.x +1) + '</b><br/>' +
+                this.series.name + ': ' + this.y + '<br/>' +
+                'Total: ' + this.point.stackTotal;
+        }
+    },
+
+    plotOptions: {
+        column: {
+            stacking: 'normal'
+        },
+        plotOptions: {
+        series: {
+            groupPadding: 0
+        }
+    },
+    },
+
+    series: [{
+        name: 'Applyweb',
+        data: [<?php echo join($col_aw, ',') ?>],
+        stack: 'current',
+        color: '#56A5EC',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }, {
+        name: 'Coalition',
+        data: [<?php echo join($col_coal, ',') ?>],
+        stack: 'current',
+        color: '#2B65EC',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }, {
+        name: 'Applyweb (Prev)',
+        data: [<?php echo join($col_py_aw, ',') ?>],
+        stack: 'previous year',
+        color: '#D54D88',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }, {
+        name: 'Coalition (Prev)',
+        data: [<?php echo join($col_py_coal, ',') ?>],
+        stack: 'previous year',
+        color: '#461765',
+        pointPadding: 0.05,
+        groupPadding:0.1,
+        maxPointWidth:100,
+        minPointWidth:5,
+        borderWidth: 1
+    }]
+});
+
+</script>
+
+
+</div> <!-- closing container
